@@ -3,58 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Math & Physics</title>
+
     <link rel="stylesheet" href="css/style.css">
 </head>
-    
-<script>
-    function updateDateTime() {
-        const now = new Date();
-
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, "0");
-        const day = String(now.getDate()).padStart(2, "0");
-
-        const weekdays = [
-            "日曜日", "月曜日", "火曜日",
-            "水曜日", "木曜日", "金曜日", "土曜日"
-        ];
-
-        const hours = String(now.getHours()).padStart(2, "0");
-        const minutes = String(now.getMinutes()).padStart(2, "0");
-        const seconds = String(now.getSeconds()).padStart(2, "0");
-
-        document.getElementById("date").textContent =
-            `${year}年${month}月${day}日${weekdays[now.getDay()]}`;
-
-        document.getElementById("time").textContent =
-            `${hours}:${minutes}:${seconds} JST`;
-    }
-
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-</script>
 
 <body>
 
+    <!-- 日時 -->
     <div id="datetime">
-        <div id="date"></div>
-        <div id="time"></div>
+        <div id="date">----年--月--日</div>
+        <div id="time">--:--:-- JST</div>
     </div>
 
+    <!-- ヘッダー -->
     <header>
         <h1>Tool</h1>
-        <p>堀大輔寝ろ</p>
+　　　　　<p>堀大輔寝ろ</p>
+
+
+
     </header>
 
+    <!-- メニュー -->
     <main>
         <a href="#" class="menu-button">
-            <span>🖐</span>
+            <span>🧮</span>
             <span>電卓</span>
         </a>
     </main>
 
-<div class="version">v1.0.0</div>
+    <!-- バージョン -->
+    <div class="version">v1.0.0</div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            const day = String(now.getDate()).padStart(2, "0");
+
+            const weekdays = [
+                "日曜日",
+                "月曜日",
+                "火曜日",
+                "水曜日",
+                "木曜日",
+                "金曜日",
+                "土曜日"
+            ];
+
+            const hours = String(now.getHours()).padStart(2, "0");
+            const minutes = String(now.getMinutes()).padStart(2, "0");
+            const seconds = String(now.getSeconds()).padStart(2, "0");
+
+            document.getElementById("date").textContent =
+                `${year}年${month}月${day}日${weekdays[now.getDay()]}`;
+
+            document.getElementById("time").textContent =
+                `${hours}:${minutes}:${seconds} JST`;
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
 
 </body>
 </html>
