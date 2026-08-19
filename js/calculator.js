@@ -78,7 +78,7 @@ function calculate() {
 
         case "/":
             if (currentNumber === 0) {
-                current = "Error";
+                current = "未定義";
                 previous = null;
                 operator = null;
                 updateDisplay();
