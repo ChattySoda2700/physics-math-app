@@ -7,14 +7,6 @@ let history = [];
 const historyList = document.getElementById("history-list");
 const resultDisplay = document.getElementById("result");
 const expressionDisplay = document.getElementById("expression");
-const expression =
-    `${previous} ${getOperatorSymbol(operator)} ${currentNumber} = ${result}`;
-history.unshift({
-    expression: expression,
-    result: result
-});
-
-updateHistory();
 
 function updateDisplay() {
     resultDisplay.textContent = current;
@@ -74,6 +66,7 @@ function calculate() {
     let result;
 
     switch (operator) {
+
         case "+":
             result = previous + currentNumber;
             break;
@@ -87,17 +80,43 @@ function calculate() {
             break;
 
         case "/":
+
             if (currentNumber === 0) {
+
+                const expression =
+                    `${previous} ${getOperatorSymbol(operator)} 0 = 未定義`;
+
+                history.unshift({
+                    expression: expression,
+                    result: "未定義"
+                });
+
+                updateHistory();
+
                 current = "未定義";
                 previous = null;
                 operator = null;
+                resetDisplay = true;
+
                 updateDisplay();
+
                 return;
             }
 
             result = previous / currentNumber;
             break;
     }
+
+    // 計算履歴を追加
+    const expression =
+        `${previous} ${getOperatorSymbol(operator)} ${currentNumber} = ${result}`;
+
+    history.unshift({
+        expression: expression,
+        result: result
+    });
+
+    updateHistory();
 
     current = String(result);
 
@@ -109,6 +128,7 @@ function calculate() {
 }
 
 function clearCalculator() {
+
     current = "0";
     previous = null;
     operator = null;
@@ -119,7 +139,7 @@ function clearCalculator() {
 
 function changeSign() {
 
-    if (current === "0" || current === "Error") {
+    if (current === "0" || current === "Error" || current === "未定義") {
         return;
     }
 
@@ -130,13 +150,39 @@ function changeSign() {
 
 function percent() {
 
-    if (current === "Error") {
+    if (current === "Error" || current === "未定義") {
         return;
     }
 
     current = String(parseFloat(current) / 100);
 
     updateDisplay();
+}
+
+function updateHistory() {
+
+    historyList.innerHTML = "";
+
+    history.forEach(item => {
+
+        const element = document.createElement("div");
+
+        element.className = "history-item";
+        element.textContent = item.expression;
+
+        element.addEventListener("click", () => {
+
+            current = String(item.result);
+
+            previous = null;
+            operator = null;
+            resetDisplay = false;
+
+            updateDisplay();
+        });
+
+        historyList.appendChild(element);
+    });
 }
 
 document.querySelectorAll("[data-number]").forEach(button => {
@@ -172,25 +218,4 @@ document
     .addEventListener("click", percent);
 
 updateDisplay();
-
-function updateHistory() {
-    historyList.innerHTML = "";
-
-    history.forEach(item => {
-        const element = document.createElement("div");
-
-        element.className = "history-item";
-        element.textContent = item.expression;
-
-        element.addEventListener("click", () => {
-            current = String(item.result);
-            previous = null;
-            operator = null;
-            resetDisplay = false;
-
-            updateDisplay();
-        });
-
-        historyList.appendChild(element);
-    });
-}
+updateHistory();
