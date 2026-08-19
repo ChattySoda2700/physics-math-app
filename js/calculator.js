@@ -4,9 +4,9 @@ let operator = null;
 let resetDisplay = false;
 let history = [];
 
-const historyList = document.getElementById("history-list");
 const resultDisplay = document.getElementById("result");
 const expressionDisplay = document.getElementById("expression");
+const historyList = document.getElementById("history-list");
 
 function updateDisplay() {
     resultDisplay.textContent = current;
@@ -29,14 +29,21 @@ function getOperatorSymbol(op) {
 
 function inputNumber(number) {
 
-    if (resetDisplay) {
+    if (current === "未定義") {
         current = number;
         resetDisplay = false;
-    } else if (number === "." && current.includes(".")) {
-        return;
-    } else if (current === "0" && number !== ".") {
+    }
+    else if (resetDisplay) {
         current = number;
-    } else {
+        resetDisplay = false;
+    }
+    else if (number === "." && current.includes(".")) {
+        return;
+    }
+    else if (current === "0" && number !== ".") {
+        current = number;
+    }
+    else {
         current += number;
     }
 
@@ -44,6 +51,10 @@ function inputNumber(number) {
 }
 
 function chooseOperator(op) {
+
+    if (current === "未定義") {
+        return;
+    }
 
     if (operator !== null && !resetDisplay) {
         calculate();
@@ -83,15 +94,10 @@ function calculate() {
 
             if (currentNumber === 0) {
 
-                const expression =
-                    `${previous} ${getOperatorSymbol(operator)} 0 = 未定義`;
-
-                history.unshift({
-                    expression: expression,
-                    result: "未定義"
-                });
-
-                updateHistory();
+                addHistory(
+                    `${previous} ${getOperatorSymbol(operator)} 0 = 未定義`,
+                    "未定義"
+                );
 
                 current = "未定義";
                 previous = null;
@@ -99,7 +105,6 @@ function calculate() {
                 resetDisplay = true;
 
                 updateDisplay();
-
                 return;
             }
 
@@ -107,16 +112,10 @@ function calculate() {
             break;
     }
 
-    // 計算履歴を追加
-    const expression =
-        `${previous} ${getOperatorSymbol(operator)} ${currentNumber} = ${result}`;
-
-    history.unshift({
-        expression: expression,
-        result: result
-    });
-
-    updateHistory();
+    addHistory(
+        `${previous} ${getOperatorSymbol(operator)} ${currentNumber} = ${result}`,
+        result
+    );
 
     current = String(result);
 
@@ -127,39 +126,21 @@ function calculate() {
     updateDisplay();
 }
 
-function clearCalculator() {
+function addHistory(expression, result) {
 
-    current = "0";
-    previous = null;
-    operator = null;
-    resetDisplay = false;
+    history.unshift({
+        expression: expression,
+        result: result
+    });
 
-    updateDisplay();
-}
-
-function changeSign() {
-
-    if (current === "0" || current === "Error" || current === "未定義") {
-        return;
-    }
-
-    current = String(parseFloat(current) * -1);
-
-    updateDisplay();
-}
-
-function percent() {
-
-    if (current === "Error" || current === "未定義") {
-        return;
-    }
-
-    current = String(parseFloat(current) / 100);
-
-    updateDisplay();
+    updateHistory();
 }
 
 function updateHistory() {
+
+    if (!historyList) {
+        return;
+    }
 
     historyList.innerHTML = "";
 
@@ -185,6 +166,44 @@ function updateHistory() {
     });
 }
 
+function clearCalculator() {
+
+    current = "0";
+    previous = null;
+    operator = null;
+    resetDisplay = false;
+
+    updateDisplay();
+}
+
+function changeSign() {
+
+    if (
+        current === "0" ||
+        current === "未定義"
+    ) {
+        return;
+    }
+
+    current = String(parseFloat(current) * -1);
+
+    updateDisplay();
+}
+
+function percent() {
+
+    if (current === "未定義") {
+        return;
+    }
+
+    current = String(parseFloat(current) / 100);
+
+    updateDisplay();
+}
+
+
+/* 数字 */
+
 document.querySelectorAll("[data-number]").forEach(button => {
 
     button.addEventListener("click", () => {
@@ -193,6 +212,9 @@ document.querySelectorAll("[data-number]").forEach(button => {
 
 });
 
+
+/* 四則演算 */
+
 document.querySelectorAll("[data-operator]").forEach(button => {
 
     button.addEventListener("click", () => {
@@ -200,6 +222,9 @@ document.querySelectorAll("[data-operator]").forEach(button => {
     });
 
 });
+
+
+/* その他 */
 
 document
     .querySelector('[data-action="equals"]')
@@ -216,6 +241,7 @@ document
 document
     .querySelector('[data-action="percent"]')
     .addEventListener("click", percent);
+
 
 updateDisplay();
 updateHistory();
