@@ -68,3 +68,14 @@ main {
 
     text-align: left;
 }
+
+.version {
+    position: fixed;
+    bottom: 8px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+
+    font-size: 11px;
+    color: #999;
+}
