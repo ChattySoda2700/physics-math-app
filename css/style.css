@@ -56,3 +56,15 @@ main {
 .menu-button:active {
     transform: scale(0.98);
 }
+
+#datetime {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+
+    font-size: 13px;
+    line-height: 1.5;
+    color: #555;
+
+    text-align: left;
+}
