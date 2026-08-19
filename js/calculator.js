@@ -2,9 +2,19 @@ let current = "0";
 let previous = null;
 let operator = null;
 let resetDisplay = false;
+let history = [];
 
+const historyList = document.getElementById("history-list");
 const resultDisplay = document.getElementById("result");
 const expressionDisplay = document.getElementById("expression");
+const expression =
+    `${previous} ${getOperatorSymbol(operator)} ${currentNumber} = ${result}`;
+history.unshift({
+    expression: expression,
+    result: result
+});
+
+updateHistory();
 
 function updateDisplay() {
     resultDisplay.textContent = current;
@@ -162,3 +172,25 @@ document
     .addEventListener("click", percent);
 
 updateDisplay();
+
+function updateHistory() {
+    historyList.innerHTML = "";
+
+    history.forEach(item => {
+        const element = document.createElement("div");
+
+        element.className = "history-item";
+        element.textContent = item.expression;
+
+        element.addEventListener("click", () => {
+            current = String(item.result);
+            previous = null;
+            operator = null;
+            resetDisplay = false;
+
+            updateDisplay();
+        });
+
+        historyList.appendChild(element);
+    });
+}
