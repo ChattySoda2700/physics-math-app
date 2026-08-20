@@ -89,6 +89,13 @@ function calculate() {
             return;
         }
 
+        // 小数誤差を修正
+        if (Math.abs(result) < 1e-12) {
+            result = 0;
+        } else {
+            result = Number(result.toPrecision(12));
+        }
+        
         expressionDisplay.textContent = expression;
         resultDisplay.textContent = result;
 
