@@ -149,3 +149,41 @@ button:active {
     background: #007aff;
     color: white;
 }
+
+.history {
+    width: 92%;
+    max-width: 450px;
+    margin: 20px auto 60px;
+}
+
+.history h2 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.history-item {
+    width: 100%;
+    min-height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 8px 14px;
+    margin-bottom: 6px;
+
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    font-size: 15px;
+    color: #333;
+
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.history-item:active {
+    transform: scale(0.98);
+}
