@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>関数電卓 - Math & Physics</title>
+
+    <link rel="stylesheet" href="../css/scientific.css">
+</head>
+
+<body>
+
+    <header>
+        <a href="../index.html" class="back-button">← ホーム</a>
+        <h1>関数電卓</h1>
+    </header>
+
+    <main class="calculator">
+
+        <div class="display">
+            <div id="expression"></div>
+            <div id="result">0</div>
+        </div>
+
+        <div class="buttons">
+
+            <button class="function" data-action="clear">AC</button>
+            <button class="function" data-action="backspace">⌫</button>
+            <button class="function" data-value="(">(</button>
+            <button class="function" data-value=")">)</button>
+
+            <button class="function" data-function="sin">sin</button>
+            <button class="function" data-function="cos">cos</button>
+            <button class="function" data-function="tan">tan</button>
+            <button class="function" data-function="sqrt">√</button>
+
+            <button class="function" data-function="log">log</button>
+            <button class="function" data-function="ln">ln</button>
+            <button class="function" data-function="square">x²</button>
+            <button class="function" data-function="power">xʸ</button>
+
+            <button class="constant" data-value="π">π</button>
+            <button class="constant" data-value="e">e</button>
+            <button class="function" data-action="sign">±</button>
+            <button class="operator" data-value="/">÷</button>
+
+            <button data-value="7">7</button>
+            <button data-value="8">8</button>
+            <button data-value="9">9</button>
+            <button class="operator" data-value="*">×</button>
+
+            <button data-value="4">4</button>
+            <button data-value="5">5</button>
+            <button data-value="6">6</button>
+            <button class="operator" data-value="-">−</button>
+
+            <button data-value="1">1</button>
+            <button data-value="2">2</button>
+            <button data-value="3">3</button>
+            <button class="operator" data-value="+">＋</button>
+
+            <button class="zero" data-value="0">0</button>
+            <button data-value=".">.</button>
+            <button class="equals" data-action="calculate">=</button>
+
+        </div>
+
+    </main>
+
+    <div class="version">v1.1.0</div>
+
+    <script src="../js/scientific.js"></script>
+
+</body>
+</html>
