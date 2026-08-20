@@ -80,7 +80,8 @@ function calculate() {
         // xʸ
         exp = exp.replaceAll("^", "**");
 
-        const result = Function(
+        // ★ const → let
+        let result = Function(
             `"use strict"; return (${exp})`
         )();
 
@@ -95,7 +96,7 @@ function calculate() {
         } else {
             result = Number(result.toPrecision(12));
         }
-        
+
         expressionDisplay.textContent = expression;
         resultDisplay.textContent = result;
 
