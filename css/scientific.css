@@ -131,3 +131,21 @@ button:active {
     font-size: 11px;
     color: #999;
 }
+
+.angle-mode {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.angle-mode button {
+    flex: 1;
+    height: 38px;
+    font-size: 14px;
+    background: #ddd;
+}
+
+.angle-mode button.mode-active {
+    background: #ff9500;
+    color: white;
+}
