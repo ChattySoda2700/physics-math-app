@@ -377,7 +377,47 @@ document
 
 
 // ====================
+// 計算履歴
+// ====================
+
+function addHistory(expressionText, result) {
+
+    history.unshift({
+        expression: expressionText,
+        result: result
+    });
+
+    updateHistory();
+}
+
+
+function updateHistory() {
+
+    historyList.innerHTML = "";
+
+    history.forEach(item => {
+
+        const element = document.createElement("div");
+
+        element.className = "history-item";
+        element.textContent = item.expression;
+
+        element.addEventListener("click", () => {
+
+            expression = String(item.result);
+
+            updateDisplay();
+
+        });
+
+        historyList.appendChild(element);
+    });
+}
+
+
+// ====================
 // 初期表示
 // ====================
 
 updateDisplay();
+updateHistory();
