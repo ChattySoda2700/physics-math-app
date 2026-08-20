@@ -24,16 +24,65 @@ function backspace() {
 }
 
 function calculate() {
+
     try {
-        let exp = expression
-            .replaceAll("π", "Math.PI")
-            .replaceAll("e", "Math.E")
-            .replaceAll("×", "*")
-            .replaceAll("÷", "/");
 
-        exp = exp.replace(/(\d+(\.\d+)?)²/g, "($1**2)");
+        let exp = expression;
 
-        const result = Function(`"use strict"; return (${exp})`)();
+        // π・e
+        exp = exp.replaceAll("π", "Math.PI");
+        exp = exp.replaceAll("e", "Math.E");
+
+        // 四則演算
+        exp = exp.replaceAll("×", "*");
+        exp = exp.replaceAll("÷", "/");
+
+        // 三角関数（度数法）
+        exp = exp.replace(
+            /sin\(([^()]*)\)/g,
+            "Math.sin(($1) * Math.PI / 180)"
+        );
+
+        exp = exp.replace(
+            /cos\(([^()]*)\)/g,
+            "Math.cos(($1) * Math.PI / 180)"
+        );
+
+        exp = exp.replace(
+            /tan\(([^()]*)\)/g,
+            "Math.tan(($1) * Math.PI / 180)"
+        );
+
+        // √
+        exp = exp.replace(
+            /√\(([^()]*)\)/g,
+            "Math.sqrt($1)"
+        );
+
+        // log
+        exp = exp.replace(
+            /log\(([^()]*)\)/g,
+            "Math.log10($1)"
+        );
+
+        // ln
+        exp = exp.replace(
+            /ln\(([^()]*)\)/g,
+            "Math.log($1)"
+        );
+
+        // x²
+        exp = exp.replace(
+            /([0-9.]+)²/g,
+            "($1**2)"
+        );
+
+        // xʸ
+        exp = exp.replaceAll("^", "**");
+
+        const result = Function(
+            `"use strict"; return (${exp})`
+        )();
 
         if (!Number.isFinite(result)) {
             resultDisplay.textContent = "未定義";
@@ -52,66 +101,31 @@ function calculate() {
 
 function scientificFunction(type) {
 
-    try {
+    const functionNames = {
+        sin: "sin(",
+        cos: "cos(",
+        tan: "tan(",
+        sqrt: "√(",
+        log: "log(",
+        ln: "ln("
+    };
 
-        const value = parseFloat(expression);
+    if (functionNames[type]) {
+        expression += functionNames[type];
+        updateDisplay();
+        return;
+    }
 
-        if (Number.isNaN(value)) {
-            return;
-        }
+    if (type === "square") {
+        expression += "²";
+        updateDisplay();
+        return;
+    }
 
-        let result;
-
-        switch (type) {
-
-            case "sin":
-                result = Math.sin(value * Math.PI / 180);
-                break;
-
-            case "cos":
-                result = Math.cos(value * Math.PI / 180);
-                break;
-
-            case "tan":
-                result = Math.tan(value * Math.PI / 180);
-                break;
-
-            case "sqrt":
-                result = Math.sqrt(value);
-                break;
-
-            case "log":
-                result = Math.log10(value);
-                break;
-
-            case "ln":
-                result = Math.log(value);
-                break;
-
-            case "square":
-                result = value ** 2;
-                break;
-
-            case "power":
-                expression = `${value}**`;
-                updateDisplay();
-                return;
-        }
-
-        if (!Number.isFinite(result)) {
-            resultDisplay.textContent = "未定義";
-            return;
-        }
-
-        expressionDisplay.textContent =
-            `${type}(${value})`;
-
-        resultDisplay.textContent = result;
-
-        expression = String(result);
-
-    } catch {
-        resultDisplay.textContent = "未定義";
+    if (type === "power") {
+        expression += "^";
+        updateDisplay();
+        return;
     }
 }
 
