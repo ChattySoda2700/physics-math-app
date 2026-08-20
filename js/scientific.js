@@ -89,7 +89,7 @@ function calculate() {
             );
 
             exp = exp.replace(
-                /tan\(([^()]*)\)/g
+                /tan\(([^()]*)\)/g,
                 "Math.tan($1)"
                 );
         }
