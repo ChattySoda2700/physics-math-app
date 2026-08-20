@@ -1,3 +1,22 @@
+let angleMode = "DEG";
+
+const degButton = document.getElementById("deg-button");
+const radButton = document.getElementById("rad-button");
+
+degButton.addEventListener("click", () => {
+    angleMode = "DEG";
+
+    degButton.classList.add("mode-active");
+    radButton.classList.remove("mode-active");
+});
+
+radButton.addEventListener("click", () => {
+    angleMode = "RAD";
+
+    radButton.classList.add("mode-active");
+    degButton.classList.remove("mode-active");
+});
+
 let expression = "";
 
 const resultDisplay = document.getElementById("result");
@@ -37,21 +56,43 @@ function calculate() {
         exp = exp.replaceAll("×", "*");
         exp = exp.replaceAll("÷", "/");
 
-        // 三角関数（度数法）
-        exp = exp.replace(
-            /sin\(([^()]*)\)/g,
-            "Math.sin(($1) * Math.PI / 180)"
-        );
+        // 三角関数
+        if (angleMode === "DEG") {
 
-        exp = exp.replace(
-            /cos\(([^()]*)\)/g,
-            "Math.cos(($1) * Math.PI / 180)"
-        );
+            // 度数法
+            exp = exp.replace(
+                /sin\(([^()]*)\)/g,
+                "Math.sin(($1) * Math.PI / 180)"
+            );
 
-        exp = exp.replace(
-            /tan\(([^()]*)\)/g,
-            "Math.tan(($1) * Math.PI / 180)"
-        );
+            exp = exp.replace(
+                /cos\(([^()]*)\)/g,
+                "Math.cos(($1) * Math.PI / 180)"
+            );
+
+            exp = exp.replace(
+                /tan\(([^()]*)\)/g,
+                "Math.tan(($1) * Math.PI / 180)"
+            );
+        
+        } else {
+
+            // ラジアン
+            exp = exp.replace(
+                /sin\(([^()]*)\)/g,
+                "Math.sin($1)"
+            );
+
+            exp = exp.replace(
+                /cos\(([^()]*)\)/g,
+                "Math.cos($1)"
+            );
+
+            exp = exp.replace(
+                /tan\(([^()]*)\)/g
+                "Math.tan($1)"
+                );
+        }
 
         // √
         exp = exp.replace(
