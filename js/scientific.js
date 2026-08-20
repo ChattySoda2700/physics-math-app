@@ -1,6 +1,9 @@
 let angleMode = "DEG";
 
 let expression = "";
+let history = [];
+
+const historyList = document.getElementById("history-list");
 
 const resultDisplay = document.getElementById("result");
 const expressionDisplay = document.getElementById("expression");
