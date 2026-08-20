@@ -219,8 +219,16 @@ function calculate() {
         // 結果表示
         // ====================
 
-        expressionDisplay.textContent = expression;
+        const originalExpression = expression;
+
+        expressionDisplay.textContent = originalExpression;
         resultDisplay.textContent = result;
+
+        addHistory(
+
+            `${originalExpression} = ${result}`,
+            result
+        );
 
         expression = String(result);
 
